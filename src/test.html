@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>test about javascript</title>
+	<script>
+		function  main(){
+			var text = document.getElementById('input').value;
+			var table = text.split(/\n\s*\n/);//分割不同的树
+			var teacherObj = {//导师，树根
+				name : '',
+				nodes : []
+			}
+			var degree1Obj = {//博士生
+				name : '',
+				nodes : []
+			}
+			var degree1Obj = {//硕士生
+				name : '',
+				nodes : []
+			}
+			var degree3Obj = {//本科生
+				name : '',
+				nodes : []
+			}
+			var gradeObj = {//年级
+				name : '',
+				nodes : []
+			}
+			var studentObj = {//学生
+				name : ''
+			}
+			var teacherArray = [];
+			for(i=0;i<table.length;i++){
+				var tag1=1,tag2=1,tag3=1
+				var row = table[0].split(/[(\r\n)\r\n]+/);//分割每行
+				teacherObj.name = row[0].match(/(?<=：|:).*/);
+				for(j=1;j<row.length;j++){
+					var student = row[j].split(':|：');//分割学生名单；
+					var students = student[1].split('、');
+					var grade = student[0].split('级')[0];
+					gradeObj.name = grade+'级';
+					for(k=0;k<students.length;k++){
+						var stuArray = [];
+						studentObj.name = students[i];
+						stuArray.push(studentObj);
+					}
+					gradeObj.nodes = stuArray;
+					var degree = student[0].split('级')[1];
+					if(degree == '博士生'){
+						if(tag1 == 1){
+							degree1Obj = {};
+							degree1Obj.name = "博士生";
+							degree1Obj.nodes.push(gradeObj);
+							teacherObj.nodes.push(degreeObj);
+							tag1 = 0;
+						}else{
+							degree1Obj.nodes.push(gradeObj);
+						}
+					}else if(degree == '硕士生'){
+						if(tag2 == 1){
+							degree2Obj = {};
+							degree2Obj.name = "博士生";
+							degree2Obj.nodes.push(gradeObj);
+							teacherObj.nodes.push(degreeObj);
+							tag2 = 0;
+						}else{
+							degree2Obj.nodes.push(gradeObj);
+						}
+					}else{
+						if(tag3 == 1){
+							degree3Obj = {};
+							degree3Obj.name = "博士生";
+							degree3Obj.nodes.push(gradeObj);
+							teacherObj.nodes.push(degreeObj);
+							tag3 = 0;
+						}else{
+							degree3Obj.nodes.push(gradeObj);
+						}
+					}
+				}
+				teacherArray.push(teacherObj);
+			}
+			document.getElementById('output').innerHTML = teacherArray[0].name;
+		}
+	</script>
+</head>
+<body>
+	<textArea id='input' rows="10" width="100%"></textArea><br>
+	<input type='button' value='submit' onclick="main()"><br>
+	<div id='output'></div>
+</body>
+</html>
